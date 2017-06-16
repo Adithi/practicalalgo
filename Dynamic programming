@@ -1,0 +1,73 @@
+
+Dynamic programming is a method for solving a complex problem by breaking it down into a collection of simpler subproblems.  [Problem] Sang-Nyang, Sang-Geun’s younger sister, bought 2n stickers. The sticker is composed of 2 rows and n columns as demonstrated in figure (a). She wants to use the stickers to decorate the table. However, the sticker quality is very poor. Once you take a sticker, all the stickers around get ruined as its edge gets torn off. In other words once you take a sticker off, the left, right, upper and lower sticker can't be used anymore. Sang-Nyang decided to give each sticker a score point. She wants to take off the stickers in a manner so that the sum of the taken off sticker scores becomes the highest. First, she gives each sticker a score point as demonstrated in figure (b). Write a program that finds the maximum score value of the stickers that Sang-Nyang can take off. Meaning, among 2n stickers, a set of stickers has to be found which sum of score points becomes the highest and which do not share the same edge. In case of figure (b) above, when the stickers with the scores 50, 50, 100 and 60 are chose, the total score becomes 260 which is the highest. Since the two stickers with the highest scores (100 and 70) share the same edge, they cannot be taken off simultaneously. [Input] The first input line contains the number of tase cases, T. The next line contains number of columns, n (1 <= n <= 100,000). The following two lines contain n integers which denote the score of the sticker of the corresponding position (0 <= score <= 100). Between each integer, there is a space. Each integer is greater than or equal to 0 and less than or equal to 100. [Output] For each given test case, print the maximum available score point. 
+
+
+
+Input
+
+Output
+
+
+
+2 5 50 10 100 20 40 30 50 70 10 60 7 10 30 10 50 100 20 40 20 40 30 50 60 20 80
+ 
+#1 260 #2 290 
+import java.util.Scanner;
+
+class Solution {
+
+	static int N;
+	static int dp[][];
+	static int board[][];
+
+	static int max(int a, int b) 
+	{
+		return (a<b) ? b : a;
+	}
+
+	static void findSticker() 
+	{
+		dp[0][0] = board[0][0];
+		dp[1][0] = board[1][0];
+		dp[0][1] = dp[1][0] + board[0][1];
+		dp[1][1] = dp[0][0] + board[1][1];
+
+		for (int i = 2; i < N; i++) 
+		{
+			dp[0][i] = max(dp[0][i - 2], dp[1][i - 2]);
+			dp[0][i] = max(dp[1][i - 1], dp[0][i]);
+			dp[0][i] += board[0][i];
+
+			dp[1][i] = max(dp[0][i - 2], dp[1][i - 2]);
+			dp[1][i] = max(dp[0][i - 1], dp[1][i]);
+			dp[1][i] += board[1][i];
+		}
+	}
+
+	public static void main(String arg[]) throws Exception {
+		Scanner sc = new Scanner(System.in);
+		
+		int T = sc.nextInt();
+		
+		for (int test_case = 1; test_case <= T; test_case++) 
+		{
+			N = sc.nextInt();
+			
+			board = new int[2][N];
+			dp = new int[2][N];
+
+			for (int j = 0; j < 2; j++) 
+			{
+				for (int i = 0; i < N; i++) 
+				{
+					board[j][i] = sc.nextInt();
+				}
+			}
+			findSticker();
+			
+			System.out.println("#" + test_case + " " + max(dp[0][N - 1], dp[1][N - 1]));
+		}
+
+		sc.close();
+	}
+}
