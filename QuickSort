@@ -1,0 +1,50 @@
+/*
+ * Quick sort divides an array into two sub-arrays. 
+ * After a pivot is picked from a sub-array, 
+ * quick sort partitions the sub-array by comparing each value with pivot 
+ * and re-locating lower value before pivot 
+ * and higher value after pivot. 
+ * Then recursive partition is applied. 
+ * [Problem] Quick sort given input in ascending order. 
+ * Max number of data is 100. 
+ * Duplicated input may exist. 
+ * [Input] 
+ * The first input line contains the number of test case, T. 
+ * The next line contains the number of input data. 
+ * Then, the integer data will be listed 
+ * [Output] For each given test case, print the sorting list.
+ */
+public class QuickSort {
+	static int arr[];
+	static int num;
+	static void quicksort(int startIndex, int endIndex){
+		if(startIndex<endIndex){
+			int pivot = startIndex;
+			int bgnIndx = pivotPartition(startIndex, endIndex, pivot);
+			swap(pivot,bgnIndx);
+			quicksort(startIndex, bgnIndx-1);
+			quicksort(bgnIndx+1, endIndex);
+		}
+	}
+	static int pivotPartition(int bgnIndx, int endIndx, int pivot) {
+		while(bgnIndx<endIndx){
+			while(arr[bgnIndx]<arr[pivot]){
+				bgnIndx++;
+			}
+			while(arr[pivot]<arr[endIndx]){
+				endIndx--;
+			}
+			if(bgnIndx<endIndx){
+				swap(bgnIndx,endIndx);
+			}
+		}
+		return bgnIndx;
+	}
+	static void swap(int bgnIndx, int endIndx) {
+		int temp=arr[bgnIndx];
+		arr[bgnIndx]=arr[endIndx];
+		arr[endIndx]=temp;
+		
+	}
+
+}
