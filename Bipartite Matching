@@ -1,0 +1,107 @@
+
+A matching in a bipratite graph is a set of edges chosen in a way that no two edges share an end point. [Problem] Given are group A and group B with each having N members starting with 1. There are also lines which connect members to each a different group. Print the number of maximum bipartite matches. [Input] The first input line contains the number of test cases, T. The next two lines contain the number of members in each group, A and B. The next line contains the number of edges. For the following lines, edges will be given. [Output] For each given test case, print the maximum number of bipartite matches. 
+
+
+
+Input
+
+Output
+
+
+
+2 // number of Test cases 3 // Number of A group members 2 // Number of B group members 3 // Number of edges 1 1 // Connect A group 1 with B group 1 2 2 // Connect A group 2 with B group 2 3 2 // Connect A group 3 with B group 2 4 5 8 1 1 1 2 1 3 2 2 2 3 2 4 3 3 4 5 
+ 
+#1 2 // Maximum number of bipartite matches #2 4  
+import java.util.Scanner;
+
+class Solution
+{
+	static final int MAX = 1000;
+	
+	static int countA;
+	static int countB;
+	static int[] matchA = new int[MAX];
+	static int[] matchB = new int[MAX];
+	static int[][] adj = new int[MAX][MAX];
+	static boolean[] visited = new boolean[MAX];
+	
+	static boolean dfs(int a)
+	{
+		int b;
+
+		if (visited[a])
+		{
+			return false;
+		}
+
+		visited[a] = true;
+
+		for (b = 0; b < countB; ++b)
+		{
+			if (adj[a][b] != 0 && (matchB[b] == -1 || dfs(matchB[b])))
+			{
+				matchA[a] = b;
+				matchB[b] = a;
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	static int bipartiteMatch()
+	{
+		int size = 0;
+		for (int start = 0; start < countA; ++start)
+		{
+			for (int i = 0; i < countA; i++)
+			{
+				visited[i] = false;
+			}
+			if (dfs(start))
+			{
+				size++;
+			}
+		}
+		return size;
+	}
+
+	static void initialize() 
+	{
+		for (int i = 0; i < countA; i++)
+		{
+			matchA[i] = -1;
+			for (int j = 0; j < countB; j++)
+			{
+				adj[i][j] = 0;
+			}
+		}
+
+		for (int i = 0; i < countB; i++)
+		{
+			matchB[i] = -1;
+		}
+	}
+	
+	public static void main(String args[]) throws Exception
+	{
+		Scanner sc = new Scanner(System.in);
+		int T = sc.nextInt();
+		for (int test_case = 1; test_case <= T; test_case++)
+		{
+			countA = sc.nextInt();
+			countB = sc.nextInt();
+			initialize();
+			int adjCount = sc.nextInt();
+			
+			for (int i = 0; i < adjCount; i++)
+			{
+				int a = sc.nextInt();
+				int b = sc.nextInt();
+				adj[a-1][b-1] = 1;
+			}
+			System.out.printf("#%d %d\n", test_case, bipartiteMatch());
+		}
+		sc.close();
+	}
+}
