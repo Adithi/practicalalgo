@@ -1,0 +1,21 @@
+/**
+ * Recursion is a method 
+ * where the solution to a problem depends on solutions to smaller instances of the same problem. 
+ * This method is mostly used in form of a Recursion Function applied to functions. 
+ * [Problem] Find the factorial value of the given number, X (1 <= x <= 20) and 
+ * print as shown below: The given number is greater than or equal to 1 and less than or equal to 20. 
+ * [Input] The first input line contains the number of test cases, T. 
+ * Then, T number of input will be given. 
+ * [Output] For each given test case, print the factorial value. 
+ * @author kayethi
+ *
+ */
+public class Recursion {
+	static long factorial(int num){
+		if(num==0)
+			return 1;
+		else
+			return num*factorial(num-1);
+	}
+
+}
