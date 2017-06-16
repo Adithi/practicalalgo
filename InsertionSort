@@ -1,0 +1,32 @@
+/**
+ * Each iteration, insertion sort removes one element from the input data, 
+ * finds the location it belongs within the sorted list, and inserts it there. 
+ * It repeats until no input elements remain. 
+ * [Problem] Sort the given data in ascending order by using Insertion sort. 
+ * The maximum size of the data is 100. 
+ * Duplicated input may exist. 
+ * [Input] 
+ * The first input line contains the number of test cases, T. 
+ * The next line contains the number of input data. 
+ * Next, the integer data will be listed 
+ * Output]
+ *  For each given test case, print the sorted list. 
+ * @author kayethi
+ *
+ */
+public class InsertionSort {
+	static int[] array;
+	static int arrayLength;
+	static void insertionSort(){
+		for(int i =1; i<arrayLength;i++){
+			int temp = array[i];
+			int j=i-1;
+			while(array[j]>temp && j>=0){
+				array[j+1]=array[j];
+				j=j-1;
+			}
+			array[j+1]=temp;
+		}
+	}
+
+}
