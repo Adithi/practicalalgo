@@ -1,0 +1,49 @@
+/**
+ * 
+ * @author kayethi
+ *A stack is a container of objects that are inserted(push) and removed (pop)
+ *according to the last-in first-out (LIFO) principle. 
+ *[Problem] Insert (push) the given N (2 <= N <= 100) 
+ *numbers in order into a stack, then pop each and print on the screen. 
+ *[Input] 
+ *The first input line contains the number of test cases, T. 
+ *The next line contains the number of data input. 
+ *Then, integer data will be listed. 
+ *[Output] 
+ *For each given test case, print each stack.
+ */
+public class Stack {
+	// create an array of huge size 
+	private static final int MAX_SIZE = 100;
+	static int[] stack = new int[MAX_SIZE];
+	// have a pointer pointing to top
+	static int top;
+	static void  init_stack(){
+		top=0;
+	}
+	static boolean stackIsEmpty(){
+		return(top==0);
+	}
+	static boolean stackIsFull(){
+		return(top==MAX_SIZE);
+	}
+	//insert at top and increment top
+	static boolean stackPush(int stckElmnt){
+		if(stackIsFull()){
+			System.out.println("Stack overflow!");
+			return false;
+		}
+		stack[top]=stckElmnt;
+		top++;
+		return true;
+	}
+	//remove top-1 and decrement top
+	static Integer popStack(){
+		if(stackIsEmpty()){
+			System.out.println("Stack is Empty!");
+			return null;
+		}
+		top--;
+		return stack[top];
+	}
+}
