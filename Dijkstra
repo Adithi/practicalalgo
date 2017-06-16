@@ -1,0 +1,99 @@
+
+Dijkstra's algorithm finds the shortest path between nodes in a directed graph without negative edges. [Problem] Given cost of each edge in a directed graph, find the path with the least cost between given nodes. [Input] The first input line contains the number of test cases, T. The next line contains the total number of nodes, the starting node, and the destination node. There can be max 100 nodes. The third line contains the number of edges, M. For the following M lines, the two connected nodes and the cost will be listed. The direction of the edge goes from the first given vertex to the second vertex. For instance, 1 2 4 is 1->2, cost = 4. [Output] For each given test case, print the least cost.
+
+
+
+Input
+
+Output
+
+
+
+1 // number of test cases 7 1 7 // Number of vertices, Starting vertex, Destination vertex 9 // Number of edges 1 2 4 // 1->2, Cost is 4 1 3 2 2 4 1 2 5 2 3 4 7 3 6 3 4 7 3 5 7 1 6 7 5
+ 
+#1 7 
+import java.util.Scanner;
+
+class Solution
+{
+	static final int N = 100;
+	static final int INF = 100000;
+	static int[][] map = new int[N+1][N+1];
+	static boolean[] visit = new boolean[N+1];
+	static int[] dist = new int[N+1];
+	static int vertex;
+	static int edge;
+	static int start;
+	static int end;
+	
+	public static void dijkstra()
+	{
+		int v = 0;
+		dist[start] = 0;
+		for (int i = 1; i <= vertex; i++)
+		{
+			int min = INF;
+			for (int j = 1; j <= vertex; j++)
+			{
+				if (visit[j] == false && min > dist[j])
+				{
+					min = dist[j];
+					v = j;
+				}
+			}
+
+			visit[v] = true;
+
+			for (int j = 1; j <= vertex; j++)
+			{
+				if (dist[j] > dist[v] + map[v][j])
+				{
+					dist[j] = dist[v] + map[v][j];
+				}
+			}
+		}
+	}
+	
+	
+	public static void main(String args[]) throws Exception
+	{
+		Scanner sc = new Scanner(System.in);
+		int T = sc.nextInt();
+		for (int test_case = 1; test_case <= T; test_case++)
+		{
+			vertex = sc.nextInt();
+			start = sc.nextInt();
+			end = sc.nextInt();
+			edge = sc.nextInt();
+			
+			for (int i = 1; i <= vertex; i++)
+			{
+				for (int j = 1; j <= vertex; j++)
+				{
+					if (i != j)
+					{
+						map[i][j] = INF;
+					}
+				}
+			}
+			
+			for (int i = 1; i <= edge; i++) 
+			{
+				int from = sc.nextInt();
+				int to = sc.nextInt();
+				int value = sc.nextInt();
+				map[from][to] = value;
+			}
+			
+			for (int i = 1; i <= edge; i++)
+			{
+				dist[i] = INF;
+				visit[i] = false;
+			}
+			
+			dijkstra();
+			System.out.printf("#%d %d\n", test_case, dist[end]);
+		}
+		sc.close();
+	}
+}
